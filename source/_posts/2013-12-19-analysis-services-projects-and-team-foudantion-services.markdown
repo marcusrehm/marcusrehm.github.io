@@ -7,7 +7,7 @@ categories: [SSAS, TFS, Agile, Business Intelligence]
 published: true
 ---
 
-Working primarily with software development, this is the second time I am working in a Business Intelligence project and since the first time I missed some techniques and processes.
+Working primarily with software development, this is the second time I am working in a Business Intelligence project and since the first time I missed some techniques and processes that I was used to.
 
 Things like source control/revision, automated deployment and tests aren't common in a BI project. Most of the testing is done by hand, so imagine a bunch of records, thousands to millions and all the validation using excel or another manual approach to compare tables status. Hopefully in another post I'll talk about automating tools for testing in a BI enviroment.
 
@@ -33,7 +33,7 @@ With the project created you can go to Solution Tab, right click on solution fil
 
 When the proccess finish you'll have your project controlled by TFS with all the goodies of a source control system.
 </br>
-![files with lock icon]({{site.url}}/assets/images_posts/analysis-services-projects-and-team-foudantion-services/SolutionAdded2SourceControl.png.png)
+![files with lock icon]({{site.url}}/assets/images_posts/analysis-services-projects-and-team-foudantion-services/SolutionAdded2SourceControl.png)
 
 Navigating to the Project TFS site, clicking on the CODE tab you can see all project files just commited.
 </br>
