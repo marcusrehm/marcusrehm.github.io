@@ -3,11 +3,11 @@
 # ----------------------- #
 
 url: http://marcusrehm.github.io
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: Marcus Rehm
+subtitle: Software development, diapers and bottles...
+author: Marcus Rehm
 simple_search: http://google.com/search
-description:
+description: 
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -20,6 +20,8 @@ subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
 email:
+email_md5: 74cd2bcc5b9aa19e4ac3d8fab9a2b349
+linkedin_user: marcusrehm
 
 # ----------------------- #
 #    Jekyll & Plugins     #
@@ -63,7 +65,7 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # ----------------------- #
 
 # Github repositories
-github_user:
+github_user: marcusrehm
 github_repo_count: 0
 github_show_profile_link: true
 github_skip_forks: true
@@ -90,11 +92,11 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
+disqus_short_name: marcusrehm
+disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id:
 
 # Facebook Like
-facebook_like: false
+facebook_like: true
