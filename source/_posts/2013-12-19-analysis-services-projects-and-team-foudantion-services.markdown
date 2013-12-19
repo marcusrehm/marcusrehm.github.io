@@ -7,9 +7,9 @@ categories: [SSAS, TFS, Agile, Business Intelligence]
 published: true
 ---
 
-Working basically with software development, this is the second time I'm woking on a Business Intelligence project and since first time I felt a huge difference about BI developers approach compared to software developers.
+Working primarily with software development, this is the second time I am working in a Business Intelligence project and since the first time I missed some techniques and processes.
 
-Things like source control/revision, automated deployment and tests aren't common in a BI project. Most of the testing is done by hand, so imagine a bunch of records, thousands to millions and all the validation using excel or another manual approach to compare tables state. Hopefully, in another post I'll talk about automating tools for testing in a BI enviroment.
+Things like source control/revision, automated deployment and tests aren't common in a BI project. Most of the testing is done by hand, so imagine a bunch of records, thousands to millions and all the validation using excel or another manual approach to compare tables status. Hopefully in another post I'll talk about automating tools for testing in a BI enviroment.
 
 In my first BI project, I had used another BI solution and code control wasn't able and migration/deployment was basically copy and paste the xml content from one enviroment to another. Now working in a Analysis Service project I decided to give a try to Team Foudation Service (The TFS online version) to see if we could bring to the project some of these techniques used in software development. Team Foudantion Service can be used free of charge with a team up to 5 members and you can create as many projects you like.
 
@@ -27,9 +27,13 @@ After installing the tools Team Explorer Tab is avaiable inside Data Tools. Clic
 </br>
 ![Team Explorer Tab]({{site.url}}/assets/images_posts/analysis-services-projects-and-team-foudantion-services/VSTeamExplorerTab.PNG)
 
-With the project created you can go to Solution Tab, right click on solution file and click "Add Project to Source Control" and then do the first CheckIn. When the proccess finish you'll have your project controlled by TFS with all the goodies of a source control system.
+With the project created you can go to Solution Tab, right click on solution file and click "Add Project to Source Control" and then do the first Check In. 
 </br>
 ![Team Explorer Tab]({{site.url}}/assets/images_posts/analysis-services-projects-and-team-foudantion-services/AddingSolution2SourceControl.png)
+
+When the proccess finish you'll have your project controlled by TFS with all the goodies of a source control system.
+</br>
+![files with lock icon]({{site.url}}/assets/images_posts/analysis-services-projects-and-team-foudantion-services/SolutionAdded2SourceControl.png.png)
 
 Navigating to the Project TFS site, clicking on the CODE tab you can see all project files just commited.
 </br>
@@ -39,4 +43,4 @@ Navigating to the Project TFS site, clicking on the CODE tab you can see all pro
 </br>
 ####More on Team Foundation Service
 
-Source Control is just one thing you can use to support team development, TFS comes with three kinds of project management methodologies templates ready to use with you new source versioned project.
+Source Control is just one thing you can use to support team development, TFS comes with three kinds of project management methodologies templates ready to use with your new source versioned project. Work Items (Project Tasks) can be associated with source code at Check In providing trace information about witch changes in source code are related to each task.
