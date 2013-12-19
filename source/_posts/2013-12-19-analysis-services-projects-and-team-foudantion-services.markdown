@@ -4,7 +4,7 @@ title: "Analysis Services projects and Team Foudantion Services"
 date: 2013-12-19 01:49:08:47 -0200
 comments: true
 categories: [SSAS, TFS, Agile, Business Intelligence]
-published: false
+published: true
 ---
 
 Working basically with software development, this is the second time I'm woking on a Business Intelligence project and since first time I felt a huge difference about BI developers approach compared to software developers.
