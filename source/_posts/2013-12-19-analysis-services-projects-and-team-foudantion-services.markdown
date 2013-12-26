@@ -43,4 +43,4 @@ Navigating to the Project TFS site, clicking on the CODE tab you can see all pro
 </br>
 ####More on Team Foundation Service
 
-Source Control is just one thing you can use to support team development, TFS comes with three kinds of project management methodologies templates ready to use with your new source versioned project. Work Items (Project Tasks) can be associated with source code at Check In providing trace information about witch changes in source code are related to each task.
+Source Control is just one thing you can use to support team development, TFS comes with three kinds of project management methodologies templates ready to use with your new source versioned project. Work Items (Project Tasks) can be associated with source code at Check In providing trace information about which changes in source code are related to each task.
