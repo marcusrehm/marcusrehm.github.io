@@ -3,7 +3,7 @@ layout: post
 title: "Restoring SQL Server databases from Pending State"
 date: 2014-02-25 22:12:58 -0300
 comments: true
-categories: SQL Server, Database
+categories: [SQL Server, Database]
 ---
 
 Today, after migrate a SQL Server 2012 server we faced a situation where all databases were in `Pending State`.
