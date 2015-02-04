@@ -4,7 +4,7 @@ title: "Integrating Oracle Data Integrator and Analysis Services"
 date: 2015-02-01 17:05:17 -0200
 comments: true
 categories: [Business Intelligence, ODI, Automation, Analysis Services, SSAS]
-published: false
+published: true
 ---
 
 
@@ -26,7 +26,8 @@ First we need to enable SSAS to accept xmla request over http. I won't show how 
 
 Note that when configuring authentication type for the IIS application, it must be set to anonymous and a user account should be used to impersonate the connection. This account will be used later to set up processing-cubes permissions in SSAS databases.
 
-For security reasons, the account used to configure IIS application must have only Process permissions, so we need to create a role in SSAS database and allow it to process all cubes and dimensions. After that, just add the user account used earlier as a member of this role.
+For security reasons, the account used to configure IIS application must have only process permissions, so we need to create a role in SSAS database and allow it to process all cubes and dimensions. Leave the ```Access``` and ```Local Cube / Drillthrough``` both set to ```None``` and check ```Process``` for all cubes in database. After that, just add the user account used earlier as a member of this role.
+![Creating SSAS Role]({{site.url}}/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/creating-ssas-role.png)
 
 If you plan to use more the one environment you will need to configure one web application for each of them.
 
@@ -34,4 +35,18 @@ Second step is to configure ODI. This is not mandatory, but if you have more tha
 
 The ODI configuration lies just in creating a flexfield for contexts where we should place the url where the SSAS responds to http requests. Therefore, in an ODI QA environment you can set the url to call a SSAS instance used only for test or QA purpouses. When the package is deployed at production level, the flexfield context in this environment should be configured with the url pointing to the production instance of SSAS.
 
-![Configuring Flexfield in ODI Context]({{site.url}}/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/configuring-flexfield-in-odi-context.PNG)
+![Creating Flexfield in ODI Context]({{site.url}}/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/configuring-flexfield-in-odi-context.png)
+
+After create the flexfield you can configure it with the SSAS url:
+![Configuring SSAS URL in ODI Context]({{site.url}}/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/configuring-ssas-url-in-context.png)
+
+The procedure code is simple. It just wraps a xmla script and completes it with the database and cube names and the processing option.
+{% gist 7a310c8794ad7306f119 %}
+
+Now just drop the procedure into a ODI scenario and configure the Options with your own information:
+![Configuring SSAS URL in ODI Context]({{site.url}}/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/using-procedure.png)
+
+That's it! Now you can use ODI to process SSAS objects. Below you can download the procedures to process both Cubes and Dimensions.
+[Download ODI Procedures]({{site.url}}/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/ODI Procedures.zip)
+
+I would like to thanks my colleague [Guthierry Marques](https://github.com/GuthierryMarques) who helped us develop these procedures. Thanks buddy!
