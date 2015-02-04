@@ -4,7 +4,7 @@
   <title><![CDATA[Marcus Rehm]]></title>
   <link href="http://marcusrehm.github.io/atom.xml" rel="self"/>
   <link href="http://marcusrehm.github.io/"/>
-  <updated>2015-02-03T23:44:27-02:00</updated>
+  <updated>2015-02-04T00:31:32-02:00</updated>
   <id>http://marcusrehm.github.io/</id>
   <author>
     <name><![CDATA[Marcus Rehm]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Integrating Oracle Data Integrator and Analysis Services]]></title>
+    <link href="http://marcusrehm.github.io/blog/2015/02/01/integrating-oracle-data-integrator-and-analysis-services/"/>
+    <updated>2015-02-01T17:05:17-02:00</updated>
+    <id>http://marcusrehm.github.io/blog/2015/02/01/integrating-oracle-data-integrator-and-analysis-services</id>
+    <content type="html"><![CDATA[<p>In this post I&rsquo;d like to show a simple integration between <a href="http://www.oracle.com/technetwork/middleware/data-integrator/overview/index.html">Oracle Data Integrator</a> and <a href="http://www.microsoft.com/en-us/server-cloud/solutions/business-intelligence/analysis.aspx">SQL Server Analysis Services</a> that enables a SSAS cube or dimension to be processed from inside ODI packages.</p>
+
+<p></br></p>
+
+<h4>Motivation</h4>
+
+<p>In medium and large environments, companies tend to use tools from one vendor only. This approach have its benefits as built-in integration &ndash; mostly of the time &ndash; between tools and a single point of support. Moreover, find skilled workers that can handle with tools from same vendor stack is easier.</p>
+
+<p>Although the scenario described above is probably the best case, sometimes companies choose to use solutions from others vendors to deal with specific issues. Therefore, in these situations some questions like lack of integration and tools that overlap some of its features may arise.</p>
+
+<p></br></p>
+
+<h4>The Solution</h4>
+
+<p>Though some configurations in ODI and SSAS must be done in order to get the integration, it basically consists in a ODI procedure coded in Jython that does a http request to SSAS passing a xmla script.</p>
+
+<p>First we need to enable SSAS to accept xmla request over http. I won&rsquo;t show how to to this, but you can get more information <a href="http://msdn.microsoft.com/en-us/library/gg492140.aspx">at MSDN</a> or just google <a href="http://www.google.com.br/webhp?#q=configure+http+access+to+analysis+services">&ldquo;configure http access to analysis services&rdquo;</a>.</p>
+
+<p>Note that when configuring authentication type for the IIS application, it must be set to anonymous and a user account should be used to impersonate the connection. This account will be used later to set up processing-cubes permissions in SSAS databases.</p>
+
+<p>For security reasons, the account used to configure IIS application must have only process permissions, so we need to create a role in SSAS database and allow it to process all cubes and dimensions. Leave the <code>Access</code> and <code>Local Cube / Drillthrough</code> both set to <code>None</code> and check <code>Process</code> for all cubes in database. After that, just add the user account used earlier as a member of this role.
+<img src="http://marcusrehm.github.io/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/creating-ssas-role.png" alt="Creating SSAS Role" /></p>
+
+<p>If you plan to use more the one environment you will need to configure one web application for each of them.</p>
+
+<p>Second step is to configure ODI. This is not mandatory, but if you have more than one environment, like QA and Production, it will help you coping deployment questions when migrating from one environment to another.</p>
+
+<p>The ODI configuration lies just in creating a flexfield for contexts where we should place the url where the SSAS responds to http requests. Therefore, in an ODI QA environment you can set the url to call a SSAS instance used only for test or QA purpouses. When the package is deployed at production level, the flexfield context in this environment should be configured with the url pointing to the production instance of SSAS.</p>
+
+<p><img src="http://marcusrehm.github.io/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/configuring-flexfield-in-odi-context.png" alt="Creating Flexfield in ODI Context" /></p>
+
+<p>After create the flexfield you can configure it with the SSAS url:
+<img src="http://marcusrehm.github.io/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/configuring-ssas-url-in-context.png" alt="Configuring SSAS URL in ODI Context" /></p>
+
+<p>The procedure code is simple. It just wraps a xmla script and completes it with the database and cube names and the processing option.</p>
+
+<div><script src='https://gist.github.com/7a310c8794ad7306f119.js'></script>
+<noscript><pre><code>import urllib
+import urllib2
+
+url = '&lt;%=odiRef.getContext(&quot;SSAS_URL&quot;)%&gt;'
+data = '&lt;?xml version=&quot;1.0&quot;?&gt;&lt;Envelope xmlns=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;' +
+        '&lt;Body&gt;' +
+        '&lt;Execute xmlns=&quot;urn:schemas-microsoft-com:xml-analysis&quot;&gt;&lt;Command&gt;' +
+        '&lt;Batch xmlns=&quot;http://schemas.microsoft.com/analysisservices/2003/engine&quot;&gt;' +
+        '&lt;Parallel&gt;' +
+        '&lt;Process xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:ddl2=&quot;http://schemas.microsoft.com/analysisservices/2003/engine/2&quot; xmlns:ddl2_2=&quot;http://schemas.microsoft.com/analysisservices/2003/engine/2/2&quot; xmlns:ddl100_100=&quot;http://schemas.microsoft.com/analysisservices/2008/engine/100/100&quot; xmlns:ddl200=&quot;http://schemas.microsoft.com/analysisservices/2010/engine/200&quot; xmlns:ddl200_200=&quot;http://schemas.microsoft.com/analysisservices/2010/engine/200/200&quot; xmlns:ddl300=&quot;http://schemas.microsoft.com/analysisservices/2011/engine/300&quot; xmlns:ddl300_300=&quot;http://schemas.microsoft.com/analysisservices/2011/engine/300/300&quot; xmlns:ddl400=&quot;http://schemas.microsoft.com/analysisservices/2012/engine/400&quot; xmlns:ddl400_400=&quot;http://schemas.microsoft.com/analysisservices/2012/engine/400/400&quot;&gt;' +
+        '&lt;Object&gt;         &lt;DatabaseID&gt;&lt;%=snpRef.getOption(&quot;SSAS Database&quot;)%&gt;&lt;/DatabaseID&gt;' +
+        '&lt;CubeID&gt;&lt;%=snpRef.getOption(&quot;Cube&quot;)%&gt;&lt;/CubeID&gt;' +
+        '&lt;/Object&gt;' +
+        '&lt;Type&gt;&lt;%=snpRef.getOption(&quot;Processing Option&quot;)%&gt;&lt;/Type&gt;' +
+        '&lt;WriteBackTableCreation&gt;UseExisting&lt;/WriteBackTableCreation&gt;' +     
+        '&lt;/Process&gt;' +
+        '&lt;/Parallel&gt;' +
+        '&lt;/Batch&gt;' +
+        '&lt;/Command&gt;' +
+        '&lt;Properties&gt;&lt;PropertyList&gt;&lt;/PropertyList&gt;    &lt;/Properties&gt;' +
+        '&lt;/Execute&gt;' +
+        '&lt;/Body&gt;&lt;/Envelope&gt;'
+http_headers = {&quot;Content-Type&quot;:'text/xml; charset=&quot;UTF-8&quot;; application/xml', 'SOAPAction':'urn:schemas-microsoft-com:xml-analysis:Execute'}
+request_object = urllib2.Request(url, data, http_headers)
+response = urllib2.urlopen(request_object)
+html_string = response.read()
+if len(html_string) != 367 :
+   raise html_string
+</code></pre></noscript></div>
+
+
+<p>Now just drop the procedure into a ODI scenario and configure the Options with your own information:
+<img src="http://marcusrehm.github.io/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/using-procedure.png" alt="Configuring SSAS URL in ODI Context" /></p>
+
+<p>That&rsquo;s it! Now you can use ODI to process SSAS objects. Below you can download the procedures to process both Cubes and Dimensions.
+<a href="http://marcusrehm.github.io/assets/images_posts/integrating-oracle-data-integrator-and-analysis-services/ODI%20Procedures.zip">Download ODI Procedures</a></p>
+
+<p>I would like to thanks my colleague <a href="https://github.com/GuthierryMarques">Guthierry Marques</a> who helped us develop these procedures. Thanks buddy!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Restoring SQL Server databases from Pending State]]></title>
