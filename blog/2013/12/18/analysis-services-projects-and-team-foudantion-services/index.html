@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Marcus Rehm</title>
+	<title>Analysis Services projects and Team Foudantion Services - Marcus Rehm</title>
 	<meta name="author" content="Marcus Rehm">
 
 	
-	<meta name="description" content="Feb 25th, 2014 Database, SQL Server Comments Restoring SQL Server Databases From Pending State Today, after migrate a SQL Server 2012 server we &hellip;">
+	<meta name="description" content="Analysis Services Projects and Team Foudantion Services Working primarily with software development, this is the second time I am working in a &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="http://feeds.feedburner.com/MarcusRehm" rel="alternate" title="Marcus Rehm" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://marcusrehm.github.io/">
+	<link rel="canonical" href="http://marcusrehm.github.io/blog/2013/12/18/analysis-services-projects-and-team-foudantion-services/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -101,111 +101,9 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner">
-<div itemscope itemtype="http://schema.org/Blog">
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-25T22:12:58-03:00" data-updated="true" itemprop="datePublished">Feb 25<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/database/'>Database</a>, <a class='category' href='/blog/categories/sql-server/'>SQL Server</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/02/25/restoring-sql-server-databases-from-pending-state/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/02/25/restoring-sql-server-databases-from-pending-state/" itemprop="url">Restoring SQL Server Databases From Pending State</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Today, after migrate a SQL Server 2012 server we faced a situation where all databases were in <code>Pending State</code>.</p>
-
-<p>Browsing the web we found the commands needed to put databases back to online state again, the only issue was that this server has about sixteen databases and execute the script sixteen times, changing variables would be time consuming and we could type something wrong. So I wrote this very simple script that iterates over a cursor returning  databases name which is in <code>Pending State</code>, <code>Suspect</code> and <code>Single User</code> mode.</p>
-
-<p>Hope that it saves you some work hours as it saved me. :)</p>
-
-<div><script src='https://gist.github.com/9144921.js'></script>
-<noscript><pre><code>declare @dbname varchar(255);
-DECLARE dbname_cursor CURSOR FOR 
-    SELECT name--, database_id, create_date, STATE_DESC
-    FROM sys.databases
-    WHERE STATE_DESC in ('SINGLE_USER', 'SUSPECT', 'RECOVERY_PENDING');
-
-OPEN dbname_cursor
-FETCH NEXT FROM dbname_cursor
-INTO @dbname
-
-WHILE @@FETCH_STATUS = 0
-BEGIN
-    PRINT 'Recovering &quot;' + @dbname + '&quot;...'
-    
-    exec sp_resetstatus @dbname;
-    exec('alter database [' + @dbname + '] set emergency');
-    dbcc checkdb(@dbname)
-    dbcc checkdb(@dbname)
-    exec('alter database [' + @dbname + '] set single_user with rollback immediate');
-    dbcc checkdb (@dbname, repair_allow_data_loss)
-    exec('alter database [' + @dbname + '] set multi_user');
-    dbcc checkdb (@dbname)
-
-    FETCH NEXT FROM dbname_cursor 
-    INTO @dbname
-END 
-CLOSE dbname_cursor;
-DEALLOCATE dbname_cursor;</code></pre></noscript></div>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-18T23:49:08-02:00" data-updated="true" itemprop="datePublished">Dec 18<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/agile/'>Agile</a>, <a class='category' href='/blog/categories/business-intelligence/'>Business Intelligence</a>, <a class='category' href='/blog/categories/ssas/'>SSAS</a>, <a class='category' href='/blog/categories/tfs/'>TFS</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/12/18/analysis-services-projects-and-team-foudantion-services/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/12/18/analysis-services-projects-and-team-foudantion-services/" itemprop="url">Analysis Services Projects and Team Foudantion Services</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Working primarily with software development, this is the second time I am working in a Business Intelligence project and since the first time I missed some techniques and processes that I was used to.</p>
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Analysis Services Projects and Team Foudantion Services</h1>
+	<div class="entry-content" itemprop="articleBody"><p>Working primarily with software development, this is the second time I am working in a Business Intelligence project and since the first time I missed some techniques and processes that I was used to.</p>
 
 <p>Things like source control/revision, automated deployment and tests aren&rsquo;t common in a BI project. Most of the testing is done by hand, so imagine a bunch of records, thousands to millions and all the validation using excel or another manual approach to compare tables status. Hopefully in another post I&rsquo;ll talk about automating tools for testing in a BI enviroment.</p>
 
@@ -244,19 +142,32 @@ DEALLOCATE dbname_cursor;</code></pre></noscript></div>
 <h4>More on Team Foundation Service</h4>
 
 <p>Source Control is just one thing you can use to support team development, TFS comes with three kinds of project management methodologies templates ready to use with your new source versioned project. Work Items (Project Tasks) can be associated with source code at Check In providing trace information about which changes in source code are related to each task.</p>
-
-		
-		
-	</div>
+</div>
 
 </article>
 
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
-<nav id="pagenavi">
-    
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
 			</div>
 			<footer id="footer" class="inner"><p>
   Copyright &copy; 2015 - Marcus Rehm -
@@ -269,7 +180,10 @@ DEALLOCATE dbname_cursor;</code></pre></noscript></div>
       var disqus_shortname = 'marcusrehm';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://marcusrehm.github.io/blog/2013/12/18/analysis-services-projects-and-team-foudantion-services/';
+        var disqus_url = 'http://marcusrehm.github.io/blog/2013/12/18/analysis-services-projects-and-team-foudantion-services/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

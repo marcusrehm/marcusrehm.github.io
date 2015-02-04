@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Marcus Rehm]]></title>
+  <link href="http://marcusrehm.github.io/atom.xml" rel="self"/>
+  <link href="http://marcusrehm.github.io/"/>
+  <updated>2015-02-03T22:58:12-02:00</updated>
+  <id>http://marcusrehm.github.io/</id>
+  <author>
+    <name><![CDATA[Marcus Rehm]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Restoring SQL Server databases from Pending State]]></title>
+    <link href="http://marcusrehm.github.io/blog/2014/02/25/restoring-sql-server-databases-from-pending-state/"/>
+    <updated>2014-02-25T22:12:58-03:00</updated>
+    <id>http://marcusrehm.github.io/blog/2014/02/25/restoring-sql-server-databases-from-pending-state</id>
+    <content type="html"><![CDATA[<p>Today, after migrate a SQL Server 2012 server we faced a situation where all databases were in <code>Pending State</code>.</p>
+
+<p>Browsing the web we found the commands needed to put databases back to online state again, the only issue was that this server has about sixteen databases and execute the script sixteen times, changing variables would be time consuming and we could type something wrong. So I wrote this very simple script that iterates over a cursor returning  databases name which is in <code>Pending State</code>, <code>Suspect</code> and <code>Single User</code> mode.</p>
+
+<p>Hope that it saves you some work hours as it saved me. :)</p>
+
+<div><script src='https://gist.github.com/9144921.js'></script>
+<noscript><pre><code>declare @dbname varchar(255);
+DECLARE dbname_cursor CURSOR FOR 
+    SELECT name--, database_id, create_date, STATE_DESC
+    FROM sys.databases
+    WHERE STATE_DESC in ('SINGLE_USER', 'SUSPECT', 'RECOVERY_PENDING');
+
+OPEN dbname_cursor
+FETCH NEXT FROM dbname_cursor
+INTO @dbname
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    PRINT 'Recovering &quot;' + @dbname + '&quot;...'
+    
+    exec sp_resetstatus @dbname;
+    exec('alter database [' + @dbname + '] set emergency');
+    dbcc checkdb(@dbname)
+    dbcc checkdb(@dbname)
+    exec('alter database [' + @dbname + '] set single_user with rollback immediate');
+    dbcc checkdb (@dbname, repair_allow_data_loss)
+    exec('alter database [' + @dbname + '] set multi_user');
+    dbcc checkdb (@dbname)
+
+    FETCH NEXT FROM dbname_cursor 
+    INTO @dbname
+END 
+CLOSE dbname_cursor;
+DEALLOCATE dbname_cursor;</code></pre></noscript></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Analysis Services projects and Team Foudantion Services]]></title>
+    <link href="http://marcusrehm.github.io/blog/2013/12/18/analysis-services-projects-and-team-foudantion-services/"/>
+    <updated>2013-12-18T23:49:08-02:00</updated>
+    <id>http://marcusrehm.github.io/blog/2013/12/18/analysis-services-projects-and-team-foudantion-services</id>
+    <content type="html"><![CDATA[<p>Working primarily with software development, this is the second time I am working in a Business Intelligence project and since the first time I missed some techniques and processes that I was used to.</p>
+
+<p>Things like source control/revision, automated deployment and tests aren&rsquo;t common in a BI project. Most of the testing is done by hand, so imagine a bunch of records, thousands to millions and all the validation using excel or another manual approach to compare tables status. Hopefully in another post I&rsquo;ll talk about automating tools for testing in a BI enviroment.</p>
+
+<p>In my first BI project, I had used another BI solution and code control wasn&rsquo;t able and migration/deployment was basically copy and paste the xml content from one enviroment to another. Now working in a Analysis Service project I decided to give a try to Team Foudation Service (The TFS online version) to see if we could bring to the project some of these techniques used in software development. Team Foudantion Service can be used free of charge with a team up to 5 members and you can create as many projects you like.</p>
+
+<p></br></p>
+
+<h4>Setting up Tools</h4>
+
+<p>First you need an <a href="http://www.outlook.com">Outlook</a> account to create a TFS workspace at <a href="http://www.visualstudio.com/products/visual-studio-online-overview-vs">Team Foundation Service</a>, after that you can start creating projects.</p>
+
+<p>Now you need to download and install (if you didn&rsquo;t have done it yet) <a href="http://www.microsoft.com/en-us/download/details.aspx?id=36843">SQL Server Data Tools 2012</a> and <a href="http://www.microsoft.com/en-us/download/details.aspx?id=30656">Team Explorer for Visual Studio 2012</a>.</p>
+
+<p></br></p>
+
+<h4>Creating Project</h4>
+
+<p>After installing the tools Team Explorer Tab is avaiable inside Data Tools. Click on &ldquo;New Team Project&rdquo; to create a project on Team Foudation Service.
+</br>
+<img src="http://marcusrehm.github.io/assets/images_posts/analysis-services-projects-and-team-foudantion-services/VSTeamExplorerTab.PNG" alt="Team Explorer Tab" /></p>
+
+<p>With the project created you can go to Solution Tab, right click on solution file and click &ldquo;Add Project to Source Control&rdquo; and then do the first Check In.
+</br>
+<img src="http://marcusrehm.github.io/assets/images_posts/analysis-services-projects-and-team-foudantion-services/AddingSolution2SourceControl.png" alt="Team Explorer Tab" /></p>
+
+<p>When the proccess finish you&rsquo;ll have your project controlled by TFS with all the goodies of a source control system.
+</br>
+<img src="http://marcusrehm.github.io/assets/images_posts/analysis-services-projects-and-team-foudantion-services/SolutionAdded2SourceControl.png" alt="files with lock icon" /></p>
+
+<p>Navigating to the Project TFS site, clicking on the CODE tab you can see all project files just commited.
+</br>
+<img src="http://marcusrehm.github.io/assets/images_posts/analysis-services-projects-and-team-foudantion-services/TFSCodeScreen.png" alt="TFS Project Code Tab" /></p>
+
+<p></br></p>
+
+<h4>More on Team Foundation Service</h4>
+
+<p>Source Control is just one thing you can use to support team development, TFS comes with three kinds of project management methodologies templates ready to use with your new source versioned project. Work Items (Project Tasks) can be associated with source code at Check In providing trace information about which changes in source code are related to each task.</p>
+]]></content>
+  </entry>
+  
+</feed>
