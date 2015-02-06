@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SQL Server | Marcus Rehm]]></title>
   <link href="http://marcusrehm.github.io/blog/categories/sql-server/atom.xml" rel="self"/>
   <link href="http://marcusrehm.github.io/"/>
-  <updated>2015-02-04T00:31:32-02:00</updated>
+  <updated>2015-02-06T12:31:17-02:00</updated>
   <id>http://marcusrehm.github.io/</id>
   <author>
     <name><![CDATA[Marcus Rehm]]></name>
@@ -20,7 +20,7 @@
     <id>http://marcusrehm.github.io/blog/2014/02/25/restoring-sql-server-databases-from-pending-state</id>
     <content type="html"><![CDATA[<p>Today, after migrate a SQL Server 2012 server we faced a situation where all databases were in <code>Pending State</code>.</p>
 
-<p>Browsing the web we found the commands needed to put databases back to online state again, the only issue was that this server has about sixteen databases and execute the script sixteen times, changing variables would be time consuming and we could type something wrong. So I wrote this very simple script that iterates over a cursor returning  databases name which is in <code>Pending State</code>, <code>Suspect</code> and <code>Single User</code> mode.</p>
+<p>Browsing the web we found the commands needed to put databases back to online state again<!-- more -->, the only issue was that this server has about sixteen databases and execute the script sixteen times, changing variables would be time consuming and we could type something wrong. So I wrote this very simple script that iterates over a cursor returning  databases name which is in <code>Pending State</code>, <code>Suspect</code> and <code>Single User</code> mode.</p>
 
 <p>Hope that it saves you some work hours as it saved me. :)</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Agile | Marcus Rehm]]></title>
   <link href="http://marcusrehm.github.io/blog/categories/agile/atom.xml" rel="self"/>
   <link href="http://marcusrehm.github.io/"/>
-  <updated>2015-02-04T00:31:32-02:00</updated>
+  <updated>2015-02-06T12:31:17-02:00</updated>
   <id>http://marcusrehm.github.io/</id>
   <author>
     <name><![CDATA[Marcus Rehm]]></name>
@@ -20,7 +20,7 @@
     <id>http://marcusrehm.github.io/blog/2013/12/18/analysis-services-projects-and-team-foudantion-services</id>
     <content type="html"><![CDATA[<p>Working primarily with software development, this is the second time I am working in a Business Intelligence project and since the first time I missed some techniques and processes that I was used to.</p>
 
-<p>Things like source control/revision, automated deployment and tests aren&rsquo;t common in a BI project. Most of the testing is done by hand, so imagine a bunch of records, thousands to millions and all the validation using excel or another manual approach to compare tables status. Hopefully in another post I&rsquo;ll talk about automating tools for testing in a BI enviroment.</p>
+<p>Things like source control/revision, automated deployment and tests aren&rsquo;t common in a BI project. Most of the testing is done by hand, so imagine a bunch of records, thousands to millions and all the validation using excel or another manual approach to compare tables status.<!-- more --> Hopefully in another post I&rsquo;ll talk about automating tools for testing in a BI enviroment.</p>
 
 <p>In my first BI project, I had used another BI solution and code control wasn&rsquo;t able and migration/deployment was basically copy and paste the xml content from one enviroment to another. Now working in a Analysis Service project I decided to give a try to Team Foudation Service (The TFS online version) to see if we could bring to the project some of these techniques used in software development. Team Foudantion Service can be used free of charge with a team up to 5 members and you can create as many projects you like.</p>
 

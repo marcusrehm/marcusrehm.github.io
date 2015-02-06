@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ODI | Marcus Rehm]]></title>
   <link href="http://marcusrehm.github.io/blog/categories/odi/atom.xml" rel="self"/>
   <link href="http://marcusrehm.github.io/"/>
-  <updated>2015-02-04T00:31:32-02:00</updated>
+  <updated>2015-02-06T12:31:17-02:00</updated>
   <id>http://marcusrehm.github.io/</id>
   <author>
     <name><![CDATA[Marcus Rehm]]></name>
@@ -18,7 +18,7 @@
     <link href="http://marcusrehm.github.io/blog/2015/02/01/integrating-oracle-data-integrator-and-analysis-services/"/>
     <updated>2015-02-01T17:05:17-02:00</updated>
     <id>http://marcusrehm.github.io/blog/2015/02/01/integrating-oracle-data-integrator-and-analysis-services</id>
-    <content type="html"><![CDATA[<p>In this post I&rsquo;d like to show a simple integration between <a href="http://www.oracle.com/technetwork/middleware/data-integrator/overview/index.html">Oracle Data Integrator</a> and <a href="http://www.microsoft.com/en-us/server-cloud/solutions/business-intelligence/analysis.aspx">SQL Server Analysis Services</a> that enables a SSAS cube or dimension to be processed from inside ODI packages.</p>
+    <content type="html"><![CDATA[<p>In this post I&rsquo;d like to show a simple integration between <a href="http://www.oracle.com/technetwork/middleware/data-integrator/overview/index.html">Oracle Data Integrator</a> and <a href="http://www.microsoft.com/en-us/server-cloud/solutions/business-intelligence/analysis.aspx">SQL Server Analysis Services</a> that enables a SSAS cube or dimension to be processed from inside ODI packages.<!-- more --></p>
 
 <p></br></p>
 

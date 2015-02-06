@@ -107,7 +107,7 @@
 	<h1 class="title" itemprop="name">Restoring SQL Server Databases From Pending State</h1>
 	<div class="entry-content" itemprop="articleBody"><p>Today, after migrate a SQL Server 2012 server we faced a situation where all databases were in <code>Pending State</code>.</p>
 
-<p>Browsing the web we found the commands needed to put databases back to online state again, the only issue was that this server has about sixteen databases and execute the script sixteen times, changing variables would be time consuming and we could type something wrong. So I wrote this very simple script that iterates over a cursor returning  databases name which is in <code>Pending State</code>, <code>Suspect</code> and <code>Single User</code> mode.</p>
+<p>Browsing the web we found the commands needed to put databases back to online state again<!-- more -->, the only issue was that this server has about sixteen databases and execute the script sixteen times, changing variables would be time consuming and we could type something wrong. So I wrote this very simple script that iterates over a cursor returning  databases name which is in <code>Pending State</code>, <code>Suspect</code> and <code>Single User</code> mode.</p>
 
 <p>Hope that it saves you some work hours as it saved me. :)</p>
 
