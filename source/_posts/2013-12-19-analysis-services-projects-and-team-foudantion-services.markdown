@@ -9,7 +9,7 @@ published: true
 
 Working primarily with software development, this is the second time I am working in a Business Intelligence project and since the first time I missed some techniques and processes that I was used to.
 
-Things like source control/revision, automated deployment and tests aren't common in a BI project. Most of the testing is done by hand, so imagine a bunch of records, thousands to millions and all the validation using excel or another manual approach to compare tables status. Hopefully in another post I'll talk about automating tools for testing in a BI enviroment.
+Things like source control/revision, automated deployment and tests aren't common in a BI project. Most of the testing is done by hand, so imagine a bunch of records, thousands to millions and all the validation using excel or another manual approach to compare tables status.<!-- more --> Hopefully in another post I'll talk about automating tools for testing in a BI enviroment.
 
 In my first BI project, I had used another BI solution and code control wasn't able and migration/deployment was basically copy and paste the xml content from one enviroment to another. Now working in a Analysis Service project I decided to give a try to Team Foudation Service (The TFS online version) to see if we could bring to the project some of these techniques used in software development. Team Foudantion Service can be used free of charge with a team up to 5 members and you can create as many projects you like.
 

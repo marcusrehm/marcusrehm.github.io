@@ -8,7 +8,7 @@ published: true
 ---
 
 
-In this post I'd like to show a simple integration between [Oracle Data Integrator](http://www.oracle.com/technetwork/middleware/data-integrator/overview/index.html) and [SQL Server Analysis Services](http://www.microsoft.com/en-us/server-cloud/solutions/business-intelligence/analysis.aspx) that enables a SSAS cube or dimension to be processed from inside ODI packages.
+In this post I'd like to show a simple integration between [Oracle Data Integrator](http://www.oracle.com/technetwork/middleware/data-integrator/overview/index.html) and [SQL Server Analysis Services](http://www.microsoft.com/en-us/server-cloud/solutions/business-intelligence/analysis.aspx) that enables a SSAS cube or dimension to be processed from inside ODI packages.<!-- more -->
 
 </br>
 ####Motivation
